@@ -5,6 +5,7 @@ from typing import Optional
 import pandas as pd
 from pandas import DataFrame
 from pandas import Series
+import rich
 
 
 def get_product_by_id(df: DataFrame, product_id: int, field: Optional[str] = None):
@@ -53,14 +54,14 @@ def convert_woosb_sku_to_mnm(master_df: DataFrame, row: Series):
                     product_id = get_product_by_sku(master_df, sku, "ID")
                     product_ids.append(int(product_id))
                 except IndexError:
-                    print(
-                        f"(3 piece) SKU {sku} not found in master_df. Skipping. (Product is {row['Name']}, sku {row['SKU']})"
+                    rich.print(
+                        f"[info] (3 piece) SKU {sku} not found in products. Skipping. (Product is {row['Name']}, sku {row['SKU']})"
                     )
                     return row_copy
 
             except IndexError:
-                print(
-                    f"SKU {sku} not found in master_df. Skipping. (Product is {row['Name']}, sku {row['SKU']})"
+                rich.print(
+                    f"[italic yellow] info [/italic yellow] SKU {sku} not found in products. Skipping. (Product is {row['Name']}, sku {row['SKU']})"
                 )
                 continue
         else:
